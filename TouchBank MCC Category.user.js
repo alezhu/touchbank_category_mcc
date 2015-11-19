@@ -5,6 +5,9 @@
 // @description  Switching visibility of MCC code for category in the internet bank of TouchBank
 // @author       alezhu
 // @match        https://www.touchbank.com/lk/bonus*
+// @source       https://raw.githubusercontent.com/alezhu/touchbank_category_mcc/master/TouchBank%20MCC%20Category.user.js
+// @updateURL    https://raw.githubusercontent.com/alezhu/touchbank_category_mcc/master/TouchBank%20MCC%20Category.user.js
+// @downloadURL  https://raw.githubusercontent.com/alezhu/touchbank_category_mcc/master/TouchBank%20MCC%20Category.user.js
 // @grant        none
 // ==/UserScript==
 /* jshint -W097 */
