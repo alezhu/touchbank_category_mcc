@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TouchBank MCC Category
 // @namespace    https://github.com/alezhu/touchbank_category_mcc
-// @version      0.1
+// @version      0.2
 // @description  Switching visibility of MCC code for category in the internet bank of TouchBank
 // @author       alezhu
 // @match        https://www.touchbank.com/lk/bonus*
@@ -18,7 +18,7 @@
 
     angular.element(document).ready(function() {
         if (LOG) console.log('ready');
-        var doc = angular.element(document);
+        var context= {};
         var count = 100;
         var wait = function(check, action, context) {
             count--;
@@ -32,52 +32,54 @@
             }, 500);
 
         };
-        wait(function(doc) {
-            if (angular.isDefined(doc.scope)) {
-                var scope = doc.scope();
-                return angular.isDefined(scope);
-            }
-            return false;
-        }, function(doc) {
-            if (LOG) console.log('scope');
-            doc.scope().$evalAsync(function() {
+        wait(function(context) {
+            var $injector = angular.injector(['ng']);
+            context.$rootScope = $injector.get('$rootScope');
+            return !!context.$rootScope;
+        }, function(context) {
+            if (LOG) console.log('rootScope');
+            context.$rootScope.$evalAsync(function() {
                 angular.element("<style type='text/css'> " +
-                    ".icon2-bonus-switch:before {" +
-                    "    content: '\\e649';" +
-                    "    margin-left: 1em;" +
-                    "    cursor: pointer;" +
-                    "}" +
-                    ".bonus-category-list {" +
-                    "    display: block;" +
-                    "    width: 100%;" +
-                    "    text-align: left;" +
-                    "}" +
-                    ".mcc {" +
-                    "    position: absolute;" +
-                    "    left: 0px;" +
-                    "    top: 0px;" +
-                    "    width: 100%;" +
-                    "    display: none;" +
-                    "    overflow-y: auto;" +
-                    "    text-align: left;" +
-                    "    height: 110px;" +
-                    "    padding-left: 150px;" +
-                    "}" +
-                    ".bonus-category-list .mcc{" +
-                    "    display: block;" +
-                    "}" +
-                    ".bonus-categories-list .category-icon {" +
-                    "    font-size: 44px;" +
-                    "    margin: 40px;" +
-                    "}" +
-                    ".bonus-category .ico-favorite {" +
-                    "    position: absolute;" +
-                    "    top: 6px;" +
-                    "    right: inherit;" +
-                    "    left: 120px;" +
-                    "}" +
-                    "</style>").appendTo("head");
-                var context = {};
+                                ".icon2-bonus-switch:before {" +
+                                "    content: '\\e601';" +
+                                "    margin-left: 1em;" +
+                                "    cursor: pointer;" +
+                                "    border: solid 1px #b5b5b5;" +
+                                "    border-radius: 4px;" +
+                                "    padding: 1px 4px;"+
+                                "    background-image: linear-gradient(to top,#efefef,#fff);" +          
+                                "}" +
+                                ".bonus-category-list {" +
+                                "    display: block;" +
+                                "    width: 100%;" +
+                                "    text-align: left;" +
+                                "}" +
+                                ".mcc {" +
+                                "    position: absolute;" +
+                                "    left: 0px;" +
+                                "    top: 0px;" +
+                                "    width: 100%;" +
+                                "    display: none;" +
+                                "    overflow-y: auto;" +
+                                "    text-align: left;" +
+                                "    height: 110px;" +
+                                "    padding-left: 150px;" +
+                                "}" +
+                                ".bonus-category-list .mcc{" +
+                                "    display: block;" +
+                                "}" +
+                                ".bonus-categories-list .category-icon {" +
+                                "    font-size: 44px;" +
+                                "    margin: 40px;" +
+                                "}" +
+                                ".bonus-category .ico-favorite {" +
+                                "    position: absolute;" +
+                                "    top: 6px;" +
+                                "    right: inherit;" +
+                                "    left: 120px;" +
+                                "}" +
+                                "</style>").appendTo("head");
+
                 wait(
                     function(context) {
                         context.bcl = angular.element('.bonus-categories-list');
@@ -109,6 +111,6 @@
                     context
                 );
             })
-        }, doc);
+        }, context);
     });
 })(window, angular);
